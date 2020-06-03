@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { ApiWendyService } from '../services/api-wendy.service';
 
 @Component({
   selector: 'app-messages',
@@ -8,62 +8,36 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MessagesComponent implements OnInit {
 
-  constructor(private toastr: ToastrService) {}
-  showNotification(from, align){
+  emails: any;
+  emailsEmpty = true;
+  messages: any;
+  messagesEmpty = true;
 
-      const color = Math.floor((Math.random() * 5) + 1);
+  constructor(private api: ApiWendyService) { }
 
-      switch(color){
-        case 1:
-        this.toastr.info('<span class="now-ui-icons ui-1_bell-53"></span> Welcome to <b>Now Ui Dashboard</b> - a beautiful freebie for every web developer.', '', {
-           timeOut: 8000,
-           closeButton: true,
-           enableHtml: true,
-           toastClass: "alert alert-info alert-with-icon",
-           positionClass: 'toast-' + from + '-' +  align
-         });
-        break;
-        case 2:
-        this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> Welcome to <b>Now Ui Dashboard</b> - a beautiful freebie for every web developer.', '', {
-           timeOut: 8000,
-           closeButton: true,
-           enableHtml: true,
-           toastClass: "alert alert-success alert-with-icon",
-           positionClass: 'toast-' + from + '-' +  align
-         });
-        break;
-        case 3:
-        this.toastr.warning('<span class="now-ui-icons ui-1_bell-53"></span> Welcome to <b>Now Ui Dashboard</b> - a beautiful freebie for every web developer.', '', {
-           timeOut: 8000,
-           closeButton: true,
-           enableHtml: true,
-           toastClass: "alert alert-warning alert-with-icon",
-           positionClass: 'toast-' + from + '-' +  align
-         });
-        break;
-        case 4:
-        this.toastr.error('<span class="now-ui-icons ui-1_bell-53"></span> Welcome to <b>Now Ui Dashboard</b> - a beautiful freebie for every web developer.', '', {
-           timeOut: 8000,
-           enableHtml: true,
-           closeButton: true,
-           toastClass: "alert alert-danger alert-with-icon",
-           positionClass: 'toast-' + from + '-' +  align
-         });
-         break;
-         case 5:
-         this.toastr.show('<span class="now-ui-icons ui-1_bell-53"></span> Welcome to <b>Now Ui Dashboard</b> - a beautiful freebie for every web developer.', '', {
-            timeOut: 8000,
-            closeButton: true,
-            enableHtml: true,
-            toastClass: "alert alert-primary alert-with-icon",
-            positionClass: 'toast-' + from + '-' +  align
-          });
-        break;
-        default:
-        break;
-      }
-  }
   ngOnInit() {
+
+    this.api.getMessages(0/*userID*/).subscribe(messages => {
+      this.messages = messages;
+      if (this.messages.length > 0) {
+        this.messagesEmpty = false;
+      }
+    });
+
+    this.api.getEmails(0/*userID*/).subscribe(emails => {
+      this.emails = emails;
+      if (this.emails.length > 0) {
+        this.emailsEmpty = false;
+      }
+    });
+
   }
 
+  openAllMessages() {
+
+  }
+
+  openAllEmails() {
+
+  }
 }

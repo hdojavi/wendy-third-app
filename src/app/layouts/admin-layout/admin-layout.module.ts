@@ -12,6 +12,7 @@ import { MessagesComponent } from '../../messages/messages.component';
 import { ChartsModule } from 'ng2-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
+import { CommandsComponent } from '../../commands/commands.component';
 
 @NgModule({
   imports: [
@@ -28,8 +29,9 @@ import { ToastrModule } from 'ngx-toastr';
     ContactsComponent,
     CalendarComponent,
     MapsComponent,
-    MessagesComponent
+    MessagesComponent,
+    CommandsComponent
   ]
 })
 
-export class AdminLayoutModule {}
+export class AdminLayoutModule { }

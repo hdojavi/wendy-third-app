@@ -1,0 +1,35 @@
+<div class="panel-header">
+  <div class="header text-center">
+    <h2 class="title">Comandos Wendy</h2>
+  </div>
+</div>
+
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Habilitar/Deshabilitar comandos</h4>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <tbody>
+              <tr *ngFor="let command of commands">
+                <td>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="checkbox" (click)="editCommand(true)" *ngIf="!command.isDisabled" checked>
+                      <input class="form-check-input" type="checkbox" (click)="editCommand(false)" *ngIf="command.isDisabled" unchecked>
+                      <span class="form-check-sign"></span>
+                    </label>
+                  </div>
+                </td>
+                <td class="text-left">{{command.description}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
