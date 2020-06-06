@@ -10,13 +10,13 @@ import { Observable, from } from 'rxjs';
 export class UserProfileComponent implements OnInit {
 
   user: User = {
-    Username: 'Wark',
-    PhoneNumber: '645770421',
-    Email: 'jabyherjor@gmail.com',
-    DeviceId: 0,
-    Password: '**********',
-    PhotoDirectory: 'https://media-exp1.licdn.com/dms/image/C5603AQH_sTjzMZ-9lQ/profile-displayphoto-shrink_200_200/0?e=1596672000&v=beta&t=GRVOeUitTGqCviGW3SysPCOd88jPDYqj_PExNINXNOI',
-    UserId: 0
+    username: 'Wark',
+    phoneNumber: '645770421',
+    email: 'jabyherjor@gmail.com',
+    deviceId: 0,
+    password: '**********',
+    photoDirectory: 'https://media-exp1.licdn.com/dms/image/C5603AQH_sTjzMZ-9lQ/profile-displayphoto-shrink_200_200/0?e=1596672000&v=beta&t=GRVOeUitTGqCviGW3SysPCOd88jPDYqj_PExNINXNOI',
+    userId: 0
   };
 
   constructor() { }

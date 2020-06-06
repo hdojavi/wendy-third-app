@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,10 @@ import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { LoginComponent } from './login/login.component';
+import { QRCodeModule } from 'angularx-qrcode';
+import { QRreaderComponent } from './qrreader/qrreader.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   imports: [
@@ -22,12 +26,17 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
     RouterModule,
     AppRoutingModule,
     NgbModule,
+    QRCodeModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot()
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
 
+    LoginComponent,
+    QRreaderComponent,
+    RegisterComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

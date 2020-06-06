@@ -1,0 +1,2 @@
+<qrcode *ngIf="qrdevice" [qrdata]="qrdevice" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+<h1 *ngIf="!qrdevice">Dispositivo no encontrado</h1>
