@@ -14,6 +14,10 @@ import Chart from 'chart.js';
 export class GraphicsComponent implements OnInit {
   private user: User;
 
+  public heartStatsNull = true;
+  public sleepStatsNull = true;
+  public stepStatsNull = true;
+
   public chartConfig: any;
   public optionalChartConfig: any;
 
@@ -33,6 +37,7 @@ export class GraphicsComponent implements OnInit {
 
     this.graphicService.getHeartStats(this.user.deviceId).subscribe(result => {
       if (result != null) {
+        this.heartStatsNull = false;
         const canvas: any = document.getElementById('heartRate');
         const ctx = canvas.getContext('2d');
 
@@ -108,7 +113,7 @@ export class GraphicsComponent implements OnInit {
   private sleepHoursChart() {
     this.graphicService.getSleepStats(this.user.deviceId).subscribe(result => {
       if (result != null) {
-        console.log(result);
+        this.sleepStatsNull = false;
         const canvas: any = document.getElementById('sleepHours');
         const ctx = canvas.getContext('2d');
 
@@ -166,6 +171,7 @@ export class GraphicsComponent implements OnInit {
   private dailyStepsChart() {
     this.graphicService.getStepStats(this.user.deviceId).subscribe(result => {
       if (result != null) {
+        this.stepStatsNull = false;
         const canvas: any = document.getElementById('dailySteps');
         const ctx = canvas.getContext('2d');
 

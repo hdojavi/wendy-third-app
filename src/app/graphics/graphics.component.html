@@ -14,6 +14,7 @@
         </div>
         <div class="card-body">
           <div class="chart-area">
+            <p *ngIf="this.sleepStatsNull" class="text-center">Datos no disponibles</p>
             <canvas id="sleepHours"></canvas>
           </div>
         </div>
@@ -28,6 +29,7 @@
         </div>
         <div class="card-body">
           <div class="chart-area">
+            <p *ngIf="this.heartStatsNull" class="text-center">Datos no disponibles</p>
             <canvas id="heartRate"></canvas>
           </div>
         </div>
@@ -42,6 +44,7 @@
         </div>
         <div class="card-body">
           <div class="chart-area">
+            <p *ngIf="this.stepStatsNull" class="text-center">Datos no disponibles</p>
             <canvas id="dailySteps"></canvas>
           </div>
         </div>
