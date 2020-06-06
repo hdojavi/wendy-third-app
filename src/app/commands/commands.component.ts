@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiWendyService } from '../services/api-wendy.service';
 
 @Component({
   selector: 'app-commands',
@@ -10,12 +9,10 @@ export class CommandsComponent implements OnInit {
 
   commands: any;
 
-  constructor(private api: ApiWendyService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.api.getCommands(0/*userID*/).subscribe(commands => {
-      this.commands = commands;
-    });
+    
   }
 
   editCommand(disable: boolean) {

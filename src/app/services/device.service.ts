@@ -9,7 +9,7 @@ import { Device } from '../models/Device';
 })
 export class DeviceService {
 
-  private URL_BASE_DEVICE: string = `${Constants.BACKEND_IP}/wendy/devices`;
+  private URL_BASE_DEVICE = `${Constants.BACKEND_IP}/wendy/devices`;
 
   constructor(private http: HttpClient) { }
 

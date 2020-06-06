@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/User';
 import { Observable, from } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -9,18 +10,12 @@ import { Observable, from } from 'rxjs';
 })
 export class UserProfileComponent implements OnInit {
 
-  user: User = {
-    username: 'Wark',
-    phoneNumber: '645770421',
-    email: 'jabyherjor@gmail.com',
-    deviceId: 0,
-    password: '**********',
-    photoDirectory: 'https://media-exp1.licdn.com/dms/image/C5603AQH_sTjzMZ-9lQ/profile-displayphoto-shrink_200_200/0?e=1596672000&v=beta&t=GRVOeUitTGqCviGW3SysPCOd88jPDYqj_PExNINXNOI',
-    userId: 0
-  };
+  user: User;
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.user = this.auth.getUserLoggedValue();
+  }
 
 }

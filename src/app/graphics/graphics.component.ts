@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
+import { GraphicsService } from '../services/graphics.service';
+import { AuthService } from '../services/auth.service';
+import { User } from '../models/User';
+import { Graphic } from '../models/Graphic';
+import Chart from 'chart.js';
 
 @Component({
   selector: 'app-graphics',
@@ -7,33 +12,281 @@ import * as Chartist from 'chartist';
   styleUrls: ['./graphics.component.css']
 })
 export class GraphicsComponent implements OnInit {
-  public gradientStroke;
-  public chartColor;
-  public canvas: any;
-  public ctx;
-  public gradientFill;
+  private user: User;
 
-  public genericChartConfig: any;
-  public sleepHoursChartConfig: any;
+  public chartConfig: any;
+  public optionalChartConfig: any;
 
-  public heartRateType;
-  public heartRateData: Array<any>;
-  public heartRateOptions: any;
-  public heartRateLabels: Array<any>;
-  public heartRateColors: Array<any>;
+  constructor(private graphicService: GraphicsService, private auth: AuthService) { }
 
-  public sleepHoursType;
-  public sleepHoursData: Array<any>;
-  public sleepHoursOptions: any;
-  public sleepHoursLabels: Array<any>;
-  public sleepHoursColors: Array<any>;
+  ngOnInit() {
+    this.user = this.auth.getUserLoggedValue();
 
-  public dailyStepsType;
-  public dailyStepsData: Array<any>;
-  public dailyStepsOptions: any;
-  public dailyStepsLabels: Array<any>;
-  public dailyStepsColors: Array<any>;
+    this.initChartConfiguration();
 
+    this.heartRateChart();
+    this.sleepHoursChart();
+    this.dailyStepsChart();
+  }
+
+  private heartRateChart() {
+
+    this.graphicService.getHeartStats(this.user.deviceId).subscribe(result => {
+      if (result != null) {
+        const canvas: any = document.getElementById('heartRate');
+        const ctx = canvas.getContext('2d');
+
+        const gradientYbars = ctx.createLinearGradient(0, 170, 0, 50);
+        gradientYbars.addColorStop(0, 'rgba(255, 255, 255, 0)');
+        gradientYbars.addColorStop(1, this.hexToRGB('#8f25c4', 0.5));
+        const gradientYLine1 = ctx.createLinearGradient(0, 170, 0, 50);
+        gradientYLine1.addColorStop(0, 'rgba(255, 255, 255, 0)');
+        gradientYLine1.addColorStop(1, this.hexToRGB('#ed3434', 0.5));
+        const gradientYLine2 = ctx.createLinearGradient(0, 170, 0, 50);
+        gradientYLine2.addColorStop(0, 'rgba(255, 255, 255, 0)');
+        gradientYLine2.addColorStop(1, this.hexToRGB('#ff9c19', 0.5));
+
+        const heartChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: result.axisX.values,
+            datasets: [
+              {
+                label: result.axisYBars[0].title,
+                pointBorderWidth: 2,
+                pointHoverRadius: 3,
+                pointHoverBorderWidth: 1,
+                pointRadius: 3,
+                fill: true,
+                borderWidth: 2,
+                borderColor: '#8f25c4',
+                pointBorderColor: '#FFF',
+                pointBackgroundColor: '#8f25c4',
+                backgroundColor: gradientYbars,
+                data: result.axisYBars[0].values
+              },
+              {
+                label: result.axisYLines[0].title,
+                type: 'line',
+                pointBorderWidth: 2,
+                pointHoverRadius: 3,
+                pointHoverBorderWidth: 1,
+                pointRadius: 3,
+                fill: true,
+                borderWidth: 2,
+                borderColor: '#ed3434',
+                pointBorderColor: '#FFF',
+                pointBackgroundColor: '#ed3434',
+                backgroundColor: gradientYLine1,
+                data: result.axisYLines[0].values
+              },
+              {
+                label: result.axisYLines[1].title,
+                type: 'line',
+                pointBorderWidth: 2,
+                pointHoverRadius: 3,
+                pointHoverBorderWidth: 1,
+                pointRadius: 3,
+                fill: true,
+                borderWidth: 2,
+                borderColor: '#ff9c19',
+                pointBorderColor: '#FFF',
+                pointBackgroundColor: '#ff9c19',
+                backgroundColor: gradientYLine2,
+                data: result.axisYLines[1].values
+              }
+            ]
+          },
+          options: this.chartConfig
+        });
+
+      }
+    });
+
+  }
+
+  private sleepHoursChart() {
+    this.graphicService.getSleepStats(this.user.deviceId).subscribe(result => {
+      if (result != null) {
+        console.log(result);
+        const canvas: any = document.getElementById('sleepHours');
+        const ctx = canvas.getContext('2d');
+
+        const gradientYbars = ctx.createLinearGradient(0, 170, 0, 50);
+        gradientYbars.addColorStop(0, 'rgba(128, 182, 244, 0)');
+        gradientYbars.addColorStop(1, this.hexToRGB('#f0c93a', 0.4));
+        const gradientYLines = ctx.createLinearGradient(0, 170, 0, 50);
+        gradientYLines.addColorStop(0, 'rgba(128, 182, 244, 0)');
+        gradientYLines.addColorStop(1, this.hexToRGB('#563680', 0.4));
+
+        const sleepChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: result.axisX.values,
+            datasets: [
+              {
+                label: result.axisYBars[0].title,
+                pointBorderWidth: 2,
+                pointHoverRadius: 3,
+                pointHoverBorderWidth: 1,
+                pointRadius: 3,
+                fill: true,
+                borderWidth: 2,
+                borderColor: '#f0c93a',
+                pointBorderColor: '#FFF',
+                pointBackgroundColor: '#f0c93a',
+                backgroundColor: gradientYbars,
+                data: result.axisYBars[0].values
+              },
+              {
+                label: result.axisYLines[0].title,
+                type: 'line',
+                pointBorderWidth: 2,
+                pointHoverRadius: 3,
+                pointHoverBorderWidth: 1,
+                pointRadius: 3,
+                fill: true,
+                borderWidth: 2,
+                borderColor: '#563680',
+                pointBorderColor: '#FFF',
+                pointBackgroundColor: '#563680',
+                backgroundColor: gradientYLines,
+                data: result.axisYLines[0].values
+              }
+            ]
+          },
+          options: this.optionalChartConfig
+        });
+
+      }
+    });
+
+  }
+
+  private dailyStepsChart() {
+    this.graphicService.getStepStats(this.user.deviceId).subscribe(result => {
+      if (result != null) {
+        const canvas: any = document.getElementById('dailySteps');
+        const ctx = canvas.getContext('2d');
+
+        const gradientYbars = ctx.createLinearGradient(0, 170, 0, 50);
+        gradientYbars.addColorStop(0, 'rgba(255, 255, 255, 0)');
+        gradientYbars.addColorStop(1, this.hexToRGB('#0398fc', 0.5));
+
+        const stepChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: result.axisX.values,
+            datasets: [
+              {
+                label: result.axisYBars[0].title,
+                pointBorderWidth: 2,
+                pointHoverRadius: 3,
+                pointHoverBorderWidth: 1,
+                pointRadius: 3,
+                fill: true,
+                borderWidth: 2,
+                borderColor: '#0398fc',
+                pointBorderColor: '#FFF',
+                pointBackgroundColor: '#0398fc',
+                backgroundColor: gradientYbars,
+                data: result.axisYBars[0].values
+              }
+            ]
+          },
+          options: this.optionalChartConfig
+        });
+
+      }
+    });
+  }
+
+  private initChartConfiguration() {
+    this.chartConfig = {
+      maintainAspectRatio: false,
+      legend: {
+        display: true,
+        position: 'bottom'
+      },
+      tooltips: {
+        bodySpacing: 1,
+        mode: 'nearest',
+        intersect: 1,
+        xPadding: 10,
+        yPadding: 10,
+        caretPadding: 10
+      },
+      responsive: true,
+      scales: {
+        yAxes: [{
+          gridLines: {
+            zeroLineColor: 'transparent',
+            drawBorder: false
+          }
+        }],
+        xAxes: [{
+          display: true,
+          gridLines: {
+            zeroLineColor: 'transparent',
+            drawTicks: true,
+            display: false,
+            drawBorder: false
+          }
+        }]
+      },
+      layout: {
+        padding: {
+          left: 0,
+          right: 0,
+          top: 15,
+          bottom: 15
+        }
+      }
+    };
+
+    this.optionalChartConfig = {
+      maintainAspectRatio: false,
+      legend: {
+        display: true,
+        position: 'bottom'
+      },
+      tooltips: {
+        bodySpacing: 2,
+        mode: 'nearest',
+        intersect: 0,
+        position: 'nearest',
+        xPadding: 10,
+        yPadding: 10,
+        caretPadding: 10
+      },
+      responsive: true,
+      scales: {
+        yAxes: [{
+          gridLines: {
+            zeroLineColor: 'transparent',
+            drawBorder: false
+          }
+        }],
+        xAxes: [{
+          display: true,
+          gridLines: {
+            zeroLineColor: 'transparent',
+            drawTicks: true,
+            display: false,
+            drawBorder: false
+          }
+        }]
+      },
+      layout: {
+        padding: {
+          left: 0,
+          right: 0,
+          top: 15,
+          bottom: 15
+        }
+      }
+    };
+  }
   // events
   public chartClicked(e: any): void {
     console.log(e);
@@ -52,231 +305,5 @@ export class GraphicsComponent implements OnInit {
     } else {
       return 'rgb(' + r + ', ' + g + ', ' + b + ')';
     }
-  }
-  constructor() { }
-
-  ngOnInit() {
-    this.chartColor = '#FFFFFF';
-
-    this.initChartConfiguration();
-
-    this.heartRateChart();
-    this.sleepHoursChart();
-    this.dailyStepsChart();
-  }
-
-  private heartRateChart() {
-    this.canvas = document.getElementById('heartRate');
-    this.ctx = this.canvas.getContext('2d');
-
-    this.gradientStroke = this.ctx.createLinearGradient(500, 0, 100, 0);
-    this.gradientStroke.addColorStop(0, '#80b6f4');
-    this.gradientStroke.addColorStop(1, this.chartColor);
-
-    this.gradientFill = this.ctx.createLinearGradient(0, 170, 0, 50);
-    this.gradientFill.addColorStop(0, 'rgba(128, 182, 244, 0)');
-    this.gradientFill.addColorStop(1, 'rgba(249, 99, 59, 0.40)');
-
-    this.heartRateData = [
-      {
-        label: 'Ritmo Cardiaco',
-        pointBorderWidth: 2,
-        pointHoverRadius: 4,
-        pointHoverBorderWidth: 1,
-        pointRadius: 4,
-        fill: true,
-        borderWidth: 2,
-        data: [83, 81, 84, 86, 79, 78, 80, 81, 77, 60, 59, 55]
-      }
-    ];
-    this.heartRateColors = [
-      {
-        borderColor: '#f96332',
-        pointBorderColor: '#FFF',
-        pointBackgroundColor: '#f96332',
-        backgroundColor: this.gradientFill
-      }
-    ];
-
-    this.heartRateLabels = ['14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '00:00', '01:00'];
-    this.heartRateOptions = this.genericChartConfig;
-
-    this.heartRateType = 'line';
-  }
-
-  private sleepHoursChart() {
-    this.canvas = document.getElementById('sleepHours');
-    this.ctx = this.canvas.getContext('2d');
-
-    const gradientLight = this.ctx.createLinearGradient(0, 170, 0, 50);
-    gradientLight.addColorStop(0, 'rgba(128, 182, 244, 0)');
-    gradientLight.addColorStop(1, this.hexToRGB('#f0c93a', 0.4));
-    const gradientDeep = this.ctx.createLinearGradient(0, 170, 0, 50);
-    gradientDeep.addColorStop(0, 'rgba(128, 182, 244, 0)');
-    gradientDeep.addColorStop(1, this.hexToRGB('#563680', 0.4));
-
-    this.sleepHoursData = [
-      {
-        label: 'Sueño ligero',
-        pointBorderWidth: 2,
-        pointHoverRadius: 4,
-        pointHoverBorderWidth: 1,
-        pointRadius: 4,
-        fill: true,
-        borderWidth: 2,
-        data: [5, 5.7, 4.3, 6.1, 5.2, 3.6, 5.2, 5.1]
-      },
-      {
-        label: 'Sueño profundo',
-        pointBorderWidth: 2,
-        pointHoverRadius: 4,
-        pointHoverBorderWidth: 1,
-        pointRadius: 4,
-        fill: true,
-        borderWidth: 2,
-        data: [1.2, 1.3, 0.6, 0.9, 1.6, 2, 1.8, 1.9]
-      },
-    ];
-    this.sleepHoursColors = [
-      {
-        borderColor: '#f0c93a',
-        pointBorderColor: '#FFF',
-        pointBackgroundColor: '#f0c93a',
-        backgroundColor: gradientLight
-      },
-      {
-        borderColor: '#563680',
-        pointBorderColor: '#FFF',
-        pointBackgroundColor: '#563680',
-        backgroundColor: gradientDeep
-      },
-    ];
-    this.sleepHoursLabels = ['26 Mayo', '27 Mayo', '28 Mayo', '29 Mayo', '30 Mayo', '31 Mayo', '1 Junio', '2 Junio'];
-    this.sleepHoursOptions = this.sleepHoursChartConfig;
-
-    this.sleepHoursType = 'bar';
-
-  }
-
-  private dailyStepsChart() {
-    this.canvas = document.getElementById('dailySteps');
-    this.ctx = this.canvas.getContext('2d');
-
-    this.gradientFill = this.ctx.createLinearGradient(0, 170, 0, 50);
-    this.gradientFill.addColorStop(0, 'rgba(128, 182, 244, 0)');
-    this.gradientFill.addColorStop(1, this.hexToRGB('#2CA8FF', 0.6));
-
-
-    this.dailyStepsData = [
-      {
-        label: 'Pasos diarios',
-        pointBorderWidth: 2,
-        pointHoverRadius: 4,
-        pointHoverBorderWidth: 1,
-        pointRadius: 4,
-        fill: true,
-        borderWidth: 1,
-        data: [2802, 2954, 5671, 4312, 2812, 2912, 2510, 3254]
-      }
-    ];
-    this.dailyStepsColors = [
-      {
-        backgroundColor: this.gradientFill,
-        borderColor: '#2CA8FF',
-        pointBorderColor: '#FFF',
-        pointBackgroundColor: '#2CA8FF',
-      }
-    ];
-    this.dailyStepsLabels = ['26 Mayo', '27 Mayo', '28 Mayo', '29 Mayo', '30 Mayo', '31 Mayo', '1 Junio', '2 Junio'];
-    this.dailyStepsOptions = this.genericChartConfig;
-
-    this.dailyStepsType = 'bar';
-  }
-
-  private initChartConfiguration() {
-    this.sleepHoursChartConfig = {
-      maintainAspectRatio: false,
-      legend: {
-        display: true,
-        position: 'bottom'
-      },
-      tooltips: {
-        bodySpacing: 4,
-        mode: 'nearest',
-        intersect: 0,
-        position: 'nearest',
-        xPadding: 10,
-        yPadding: 10,
-        caretPadding: 10
-      },
-      responsive: true,
-      scales: {
-        yAxes: [{
-          gridLines: {
-            zeroLineColor: 'transparent',
-            drawBorder: false
-          }
-        }],
-        xAxes: [{
-          display: true,
-          gridLines: {
-            zeroLineColor: 'transparent',
-            drawTicks: true,
-            display: false,
-            drawBorder: false
-          }
-        }]
-      },
-      layout: {
-        padding: {
-          left: 0,
-          right: 0,
-          top: 15,
-          bottom: 15
-        }
-      }
-    };
-
-    this.genericChartConfig = {
-      maintainAspectRatio: false,
-      legend: {
-        display: false,
-      },
-      tooltips: {
-        bodySpacing: 4,
-        mode: 'nearest',
-        intersect: 0,
-        position: 'nearest',
-        xPadding: 10,
-        yPadding: 10,
-        caretPadding: 10
-      },
-      responsive: true,
-      scales: {
-        yAxes: [{
-          gridLines: {
-            zeroLineColor: 'transparent',
-            drawBorder: false
-          }
-        }],
-        xAxes: [{
-          display: true,
-          gridLines: {
-            zeroLineColor: 'transparent',
-            drawTicks: true,
-            display: false,
-            drawBorder: false
-          }
-        }]
-      },
-      layout: {
-        padding: {
-          left: 0,
-          right: 0,
-          top: 15,
-          bottom: 15
-        }
-      }
-    };
   }
 }

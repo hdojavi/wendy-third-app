@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  private URL_USER_BASE: string = `${Constants.BACKEND_IP}/wendy/users`
+  private URL_USER_BASE = `${Constants.BACKEND_IP}/wendy/users`;
 
   constructor(private http: HttpClient) { }
 

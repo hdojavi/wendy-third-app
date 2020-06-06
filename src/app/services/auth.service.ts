@@ -10,15 +10,15 @@ import { Constants } from '../utils/Constants';
 })
 export class AuthService {
   private userLoggedSubject: BehaviorSubject<User>
-  private URL_AUTH: string = `${Constants.BACKEND_IP}/wendy/users/auth`
-  public userLogged: Observable<User>
+  private URL_AUTH = `${Constants.BACKEND_IP}/wendy/users/auth`;
+  public userLogged: Observable<User>;
 
   constructor(private http: HttpClient) {
     this.userLoggedSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('userLogged')));
     this.userLogged = this.userLoggedSubject.asObservable();
   }
 
-  public getUserLoggedValue(): User{
+  public getUserLoggedValue(): User {
     return this.userLoggedSubject.value;
   }
 
