@@ -33,7 +33,6 @@ import { RegisterComponent } from './register/register.component';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-
     LoginComponent,
     QRreaderComponent,
     RegisterComponent
