@@ -16,13 +16,13 @@
               <div class="col-md-6 pr-1">
                 <div class="form-group">
                   <label>Nombre de usuario</label>
-                  <input type="text" class="form-control" placeholder="Nombre" [value]="user.Username">
+                  <input type="text" class="form-control" placeholder="Nombre" [value]="user.username">
                 </div>
               </div>
               <div class="col-md-6 pl-1">
                 <div class="form-group">
                   <label>Password</label>
-                  <input type="password" disabled class="form-control" [value]="user.Password">
+                  <input type="password" disabled class="form-control" [value]="user.password">
                 </div>
               </div>
             </div>
@@ -31,7 +31,7 @@
                 <div class="form-group">
                   <label for="email">Email</label>
                   <input name="email" id="email" type="email" class="form-control" placeholder="Email"
-                    [value]="user.Email">
+                    [value]="user.email">
                 </div>
               </div>
             </div>
@@ -39,7 +39,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label>Teléfono</label>
-                  <input type="text" class="form-control" placeholder="Telefono" [value]="user.PhoneNumber">
+                  <input type="text" class="form-control" placeholder="Telefono" [value]="user.phoneNumber">
                 </div>
               </div>
             </div>
@@ -57,11 +57,11 @@
         <div class="card-body">
           <div class="author">
             <a href="#">
-              <img class="avatar border-gray" [src]="user.PhotoDirectory" alt="...">
-              <h5 class="title">{{user.Username}}</h5>
+              <img class="avatar border-gray" [src]="user.photoDirectory" alt="...">
+              <h5 class="title">{{user.username}}</h5>
             </a>
             <p class="description">
-              {{user.Email}}
+              {{user.email}}
             </p>
           </div>
           <div class="card-footer">

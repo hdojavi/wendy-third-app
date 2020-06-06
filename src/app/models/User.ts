@@ -1,9 +1,9 @@
-export interface User {
-    UserId: number;
-    Username: string;
-    Password: string;
-    Email: string;
-    PhoneNumber: string;
-    PhotoDirectory: string;
-    DeviceId: number;
+export class User {
+    userId: number;
+    username: string;
+    password: string;
+    email: string;
+    phoneNumber: string;
+    photoDirectory: string;
+    deviceId: number;
 }
