@@ -5,5 +5,4 @@ export class GeolocationStat {
     date: Date;
     formatDate: string;
     deviceId: number;
-    typeStatisticId: number;
 }
