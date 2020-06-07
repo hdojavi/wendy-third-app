@@ -18,4 +18,8 @@ export class UserProfileComponent implements OnInit {
     this.user = this.auth.getUserLoggedValue();
   }
 
+  logout() {
+    this.auth.logout();
+  }
+
 }

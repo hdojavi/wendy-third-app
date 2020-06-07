@@ -7,28 +7,35 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { LoginComponent } from './login/login.component';
 import { QRreaderComponent } from './qrreader/qrreader.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthinverseGuard } from './guards/authinverse.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes =[
 
   {
     path: 'qrdevice/:id',
-    component: QRreaderComponent
+    component: QRreaderComponent,
+    canActivate: [AuthinverseGuard]
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [AuthinverseGuard]
   },
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [AuthinverseGuard]
   },
   {
     path: '',
     redirectTo: 'graphics',
     pathMatch: 'full',
+    canActivate: [AuthGuard]
   }, {
     path: '',
     component: AdminLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
         {
       path: '',
@@ -36,6 +43,7 @@ const routes: Routes =[
   }]},
   {
     path: '**',
+    canActivate: [AuthGuard],
     redirectTo: 'graphics'
   }
 ];
