@@ -30,23 +30,15 @@ export class MapsComponent implements OnInit {
                 gs.forEach(i => i.formatDate = moment(i.date).format('DD/MM/YYYY HH:mm'));
                 this.geolocationStats = gs;
 
+                this.mapbox.accessToken = Constants.MAPBOX_TOKEN;
                 this.selectedTime = gs[0].geolocationStatId;
+                this.lng = gs[0].longitude;
+                this.lat = gs[0].latitude;
+                this.buildMap();
             });
     }
 
     ngOnInit() {
-        this.mapbox.accessToken = Constants.MAPBOX_TOKEN;
-
-        navigator.geolocation.getCurrentPosition(
-            resp => {
-                this.lng = resp.coords.longitude;
-                this.lat = resp.coords.latitude;
-
-                this.buildMap();
-            },
-            err => {
-                console.log(err);
-            });
     }
 
     buildMap() {
