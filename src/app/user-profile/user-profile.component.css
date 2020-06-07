@@ -1,0 +1,9 @@
+.btn-logout {
+    background-color: #AF3E4D;
+}
+
+.btn-logout:hover, .btn-logout:active {
+    opacity: 0.8;
+    background-color: #AF3E4D !important;
+}
+

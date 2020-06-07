@@ -4,6 +4,7 @@ import { User } from '../models/User';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Constants } from '../utils/Constants';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   private URL_AUTH = `${Constants.BACKEND_IP}/wendy/users/auth`;
   public userLogged: Observable<User>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.userLoggedSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('userLogged')));
     this.userLogged = this.userLoggedSubject.asObservable();
   }
@@ -39,5 +40,6 @@ export class AuthService {
   logout() {
     localStorage.removeItem('userLogged');
     this.userLoggedSubject.next(null);
+    this.router.navigate(['/login']);
   }
 }
