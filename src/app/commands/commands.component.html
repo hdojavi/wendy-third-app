@@ -18,13 +18,20 @@
                 <td>
                   <div class="form-check">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="checkbox" (click)="editCommand(true)" *ngIf="!command.isDisabled" checked>
-                      <input class="form-check-input" type="checkbox" (click)="editCommand(false)" *ngIf="command.isDisabled" unchecked>
+                      <input class="form-check-input" type="checkbox" (click)="editCommand(command.commandId)"
+                        [checked]="!command.isDisabled">
                       <span class="form-check-sign"></span>
                     </label>
                   </div>
                 </td>
-                <td class="text-left">{{command.description}}</td>
+                <td class="text-left">
+                  <h6>{{command.title}}</h6>
+                  {{command.description}}
+                </td>
+                <td>
+                  <p *ngIf="command.isDisabled">Deshabilitado</p>
+                  <p *ngIf="!command.isDisabled">Habilitado</p>
+                </td>
               </tr>
             </tbody>
           </table>

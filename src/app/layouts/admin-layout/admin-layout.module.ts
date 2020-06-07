@@ -15,7 +15,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { CommandsComponent } from '../../commands/commands.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -24,6 +23,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FormsModule,
     ChartsModule,
     NgbModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot()
   ],
   declarations: [

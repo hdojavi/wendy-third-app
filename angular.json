@@ -24,7 +24,6 @@
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
               "node_modules/ngx-toastr/toastr.css",
               "./node_modules/@ng-select/ng-select/themes/default.theme.css" ,
-              "./node_modules/@ng-select/ng-select/themes/default.theme.css" ,
               "src/assets/scss/now-ui-dashboard.scss",
               "src/assets/demo/demo.css"
             ],

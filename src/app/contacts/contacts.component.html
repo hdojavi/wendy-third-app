@@ -21,15 +21,16 @@
               </thead>
               <tbody>
                 <tr *ngFor="let contact of contacts">
-                  <td> {{contact.fullName}}</td>
+                  <td> {{contact.name +' '+ contact.lastName}}</td>
                   <td> {{contact.email}} </td>
                   <td> {{contact.phoneNumber}} </td>
                   <td class="td-actions text-right">
-                    <button (click)="openDetailContact(contact.id)" type="button" rel="tooltip" title=""
-                      class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral">
+                    <button (click)="openDetailContact(contact.contactId)" type="button" rel="tooltip"
+                      title="Editar Contacto" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral">
                       <i class="now-ui-icons ui-2_settings-90"></i>
                     </button>
-                    <button (click)="removeContact(contact.id)" type="button" rel="tooltip" title=""
+                    <button *ngIf="contact.email != user.email" (click)="removeContact(contact.contactId)" type="button"
+                      rel="tooltip" title="Borrar Contacto"
                       class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral">
                       <i class="now-ui-icons ui-1_simple-remove"></i>
                     </button>
@@ -48,6 +49,57 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 offset-3" *ngIf="detailIsVisible">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{{titleDetail}} contacto</h4>
+      </div>
+      <form class="card-body" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div *ngIf="false" formControlName="id"></div>
+          <div class="col-md-6 pr-1">
+            <div class="form-group">
+              <label><span *ngIf="form.controls.name.errors?.required" class="text-danger">*</span> Nombre</label>
+              <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
+            </div>
+          </div>
+          <div class="col-md-6 pl-1">
+            <div class="form-group">
+              <label>Apellidos</label>
+              <input type="text" class="form-control" placeholder="Apellidos" formControlName="lastName">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 pr-1">
+            <div class="form-group">
+              <label><span
+                  *ngIf="form.controls.phoneNumber.errors?.required || form.controls.phoneNumber.errors?.pattern"
+                  class="text-danger">*</span>
+                Teléfono</label>
+              <input type="text" class="form-control" placeholder="Teléfono" formControlName="phoneNumber">
+            </div>
+          </div>
+          <div class="col-md-6 pl-1">
+            <div class="form-group">
+              <label for="email"><span *ngIf="form.controls.email.errors?.required || form.controls.email.errors?.email"
+                  class="text-danger">*</span> Email</label>
+              <input name="email" id="email" type="email" class="form-control" placeholder="Email"
+                formControlName="email">
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="stats">
+            <button [disabled]="form.invalid" class="btn btn-primary btn-block mb-1" type="submit"> {{titleDetail}}
+            </button>
+            <button class="btn btn-danger btn-block" (click)="closeDetail()">Cerrar</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

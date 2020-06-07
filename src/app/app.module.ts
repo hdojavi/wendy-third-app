@@ -17,6 +17,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { QRreaderComponent } from './qrreader/qrreader.component';
 import { RegisterComponent } from './register/register.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
