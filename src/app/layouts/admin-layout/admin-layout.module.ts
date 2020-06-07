@@ -13,11 +13,14 @@ import { ChartsModule } from 'ng2-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { CommandsComponent } from '../../commands/commands.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(AdminLayoutRoutes),
+    NgSelectModule,
     FormsModule,
     ChartsModule,
     NgbModule,

@@ -16,7 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { QRreaderComponent } from './qrreader/qrreader.component';
 import { RegisterComponent } from './register/register.component';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -27,6 +27,7 @@ import { RegisterComponent } from './register/register.component';
     AppRoutingModule,
     NgbModule,
     QRCodeModule,
+    NgSelectModule,
     ReactiveFormsModule,
     ToastrModule.forRoot()
   ],
