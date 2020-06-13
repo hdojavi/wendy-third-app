@@ -4,7 +4,7 @@ import { GraphicsService } from '../services/graphics.service';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/User';
 import { Graphic } from '../models/Graphic';
-import Chart from 'chart.js';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-graphics',
@@ -68,7 +68,9 @@ export class GraphicsComponent implements OnInit {
                 pointBorderColor: '#FFF',
                 pointBackgroundColor: '#8f25c4',
                 backgroundColor: gradientYbars,
-                data: result.axisYBars[0].values
+                data: result.axisYBars[0].values.map(function (item) {
+                  return parseInt(item, 10);
+                })
               },
               {
                 label: result.axisYLines[0].title,
@@ -83,7 +85,9 @@ export class GraphicsComponent implements OnInit {
                 pointBorderColor: '#FFF',
                 pointBackgroundColor: '#ed3434',
                 backgroundColor: gradientYLine1,
-                data: result.axisYLines[0].values
+                data: result.axisYLines[0].values.map(function (item) {
+                  return parseInt(item, 10);
+                })
               },
               {
                 label: result.axisYLines[1].title,
@@ -98,7 +102,9 @@ export class GraphicsComponent implements OnInit {
                 pointBorderColor: '#FFF',
                 pointBackgroundColor: '#ff9c19',
                 backgroundColor: gradientYLine2,
-                data: result.axisYLines[1].values
+                data: result.axisYLines[1].values.map(function (item) {
+                  return parseInt(item, 10);
+                })
               }
             ]
           },
@@ -141,7 +147,9 @@ export class GraphicsComponent implements OnInit {
                 pointBorderColor: '#FFF',
                 pointBackgroundColor: '#f0c93a',
                 backgroundColor: gradientYbars,
-                data: result.axisYBars[0].values
+                data: result.axisYBars[0].values.map(function (item) {
+                  return parseInt(item, 10);
+                })
               },
               {
                 label: result.axisYLines[0].title,
@@ -156,7 +164,9 @@ export class GraphicsComponent implements OnInit {
                 pointBorderColor: '#FFF',
                 pointBackgroundColor: '#563680',
                 backgroundColor: gradientYLines,
-                data: result.axisYLines[0].values
+                data: result.axisYLines[0].values.map(function (item) {
+                  return parseInt(item, 10);
+                })
               }
             ]
           },
@@ -196,7 +206,9 @@ export class GraphicsComponent implements OnInit {
                 pointBorderColor: '#FFF',
                 pointBackgroundColor: '#0398fc',
                 backgroundColor: gradientYbars,
-                data: result.axisYBars[0].values
+                data: result.axisYBars[0].values.map(function (item) {
+                  return parseInt(item, 10);
+                })
               }
             ]
           },

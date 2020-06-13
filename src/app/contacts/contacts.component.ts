@@ -4,6 +4,7 @@ import { ContactsService } from '../services/contacts.service';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/User';
 import { Contact } from '../models/Contact';
+import {MatTableModule} from '@angular/material/table';
 
 @Component({
   selector: 'app-contacts',

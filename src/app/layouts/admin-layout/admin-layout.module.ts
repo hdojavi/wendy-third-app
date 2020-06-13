@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { CommandsComponent } from '../../commands/commands.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ChartsModule,
     NgbModule,
     ReactiveFormsModule,
+    MatTableModule,
     ToastrModule.forRoot()
   ],
   declarations: [
