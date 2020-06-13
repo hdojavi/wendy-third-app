@@ -14,12 +14,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { CommandsComponent } from '../../commands/commands.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { MatTableModule } from '@angular/material/table';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
     NgbModule,
     ReactiveFormsModule,
     MatTableModule,
+    MatPaginatorModule,
     ToastrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

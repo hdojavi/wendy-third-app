@@ -12,7 +12,42 @@
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table" *ngIf="!contactsEmpty">
+
+            <table mat-table class="table" [dataSource]="dataSource">
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                <td mat-cell *matCellDef="let contact"> {{contact.name}} </td>
+              </ng-container>
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let contact"> {{contact.email}} </td>
+              </ng-container>
+              <ng-container matColumnDef="phoneNumber">
+                <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+                <td mat-cell *matCellDef="let contact"> {{contact.phoneNumber}} </td>
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let contact">
+                  <button (click)="openDetailContact(contact.contactId)" type="button" rel="tooltip"
+                    title="Editar Contacto" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral">
+                    <i class="now-ui-icons ui-2_settings-90"></i>
+                  </button>
+                  <button *ngIf="contact.email != user.email" (click)="removeContact(contact.contactId)" type="button"
+                    rel="tooltip" title="Borrar Contacto"
+                    class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+              <tr mat-row *matRowDef="let contacts; columns: columnsToDisplay"></tr>
+            </table>
+            <mat-paginator [hidePageSize]="true"
+            [length]="dataSource.data?.length" [pageSize]="5"> </mat-paginator>
+            <!-- <table class="table" *ngIf="!contactsEmpty">
               <thead class="text-primary">
                 <th> Nombre </th>
                 <th> Email </th>
@@ -37,7 +72,7 @@
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </table> -->
             <p class="text-center" *ngIf="contactsEmpty">No tienes contactos.</p>
           </div>
         </div>
