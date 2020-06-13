@@ -27,7 +27,8 @@ export class MapsComponent implements OnInit {
     constructor(private geolocationGoogleService: GeolocationGoogleService, private geolocationStatService: GeolocationstatsService) {
         this.geolocationStatService.getLatestPositions()
             .subscribe(gs => {
-                gs.forEach(i => i.formatDate = moment(i.date).format('DD/MM/YYYY HH:mm'));
+                gs.forEach(i => {
+                    i.formatDate = moment(i.date).format('DD/MM/YYYY HH:mm')});
                 this.geolocationStats = gs;
 
                 this.mapbox.accessToken = Constants.MAPBOX_TOKEN;

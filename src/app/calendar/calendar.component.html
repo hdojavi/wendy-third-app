@@ -8,95 +8,88 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h5 class="title">Now Ui Table Heading</h5>
-          <p class="category">Created using Montserrat Font Family</p>
+          <h5 class="title text-center">{{ viewDate | calendarDate:(view + 'ViewTitle'):'es'  | uppercase}}</h5>
         </div>
         <div class="card-body">
-          <div class="calendar-line">
-            <h1>
-              <span>Header 1</span>The Life of Now Ui Dashboard </h1>
+          <div class="btn-group">
+            <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+              (viewDateChange)="closeOpenMonthViewDay()">
+              Anterior
+            </div>
+            <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+              Hoy
+            </div>
+            <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+              (viewDateChange)="closeOpenMonthViewDay()">
+              Siguiente
+            </div>
+
+
+
           </div>
-          <div class="calendar-line">
-            <h2>
-              <span>Header 2</span>The Life of Now Ui Dashboard </h2>
-          </div>
-          <div class="calendar-line">
-            <h3>
-              <span>Header 3</span>The Life of Now Ui Dashboard </h3>
-          </div>
-          <div class="calendar-line">
-            <h4>
-              <span>Header 4</span>The Life of Now Ui Dashboard </h4>
-          </div>
-          <div class="calendar-line">
-            <h5>
-              <span>Header 5</span>The Life of Now Ui Dashboard </h5>
-          </div>
-          <div class="calendar-line">
-            <h6>
-              <span>Header 6</span>The Life of Now Ui Dashboard </h6>
-          </div>
-          <div class="calendar-line">
-            <p>
-              <span>Paragraph</span>
-              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.
-            </p>
-          </div>
-          <div class="calendar-line">
-            <span>Quote</span>
-            <blockquote>
-              <p class="blockquote blockquote-primary">
-                "I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at."
-                <br>
-                <br>
-                <small>
-                  - Noaa
-                </small>
-              </p>
-            </blockquote>
-          </div>
-          <div class="calendar-line">
-            <span>Muted Text</span>
-            <p class="text-muted">
-              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers...
-            </p>
-          </div>
-          <div class="calendar-line">
-            <span>Primary Text</span>
-            <p class="text-primary">
-              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers...</p>
-          </div>
-          <div class="calendar-line">
-            <span>Info Text</span>
-            <p class="text-info">
-              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
-          </div>
-          <div class="calendar-line">
-            <span>Success Text</span>
-            <p class="text-success">
-              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
-          </div>
-          <div class="calendar-line">
-            <span>Warning Text</span>
-            <p class="text-warning">
-              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers...
-            </p>
-          </div>
-          <div class="calendar-line">
-            <span>Danger Text</span>
-            <p class="text-danger">
-              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
-          </div>
-          <div class="calendar-line">
-            <h2>
-              <span>Small Tag</span>
-              Header with small subtitle
-              <br>
-              <small>Use "small" tag for the headers</small>
-            </h2>
-          </div>
+          <mwl-calendar-month-view [viewDate]="viewDate" [events]="events" [refresh]="refresh" [locale]="locale"
+            (dayClicked)="dayClicked($event.day, content)" (eventClicked)="handleEvent('Clicked', $event.event)"
+            [weekStartsOn]="weekStartsOn" [weekendDays]="weekendDays">
+          </mwl-calendar-month-view>
+
         </div>
       </div>
     </div>
   </div>
 </div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{getFormattedEventDay(eventDay.day)}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form novalidate #myForm="ngForm">
+      <kendo-grid [data]="gridData" [height]="410" (dataStateChange)="onStateChange($event)"
+        (edit)="editHandler($event)" (cancel)="cancelHandler($event)" (save)="saveHandler($event)"
+        (remove)="removeHandler($event)" (add)="addHandler($event, myForm)">
+        <ng-template kendoGridToolbarTemplate>
+          <button kendoGridAddCommand type="button">Añadir un evento</button>
+        </ng-template>
+        <kendo-grid-column field="eventId" title="ID" width="40" [hidden]="true">
+          <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+            <input [(ngModel)]="dataItem.eventId" kendoGridFocusable name="eventId" class="k-textbox" required />
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="description" title="Descripción" width="250">
+          <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+            <input [(ngModel)]="dataItem.description" kendoGridFocusable name="description" class="k-textbox"
+              required />
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="time" title="Hora" width="180">
+
+          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+            <kendo-timepicker required placeholder="Hora" [(value)]="dataItem.time" [format]="'HH:mm'">
+
+              <kendo-timepicker-messages accept="Aceptar" acceptLabel="Seleccione LA HORA" cancel="Cancelar"
+                cancelLabel="Cancelar cambios" now="Ahora" nowLabel="Ahora"  toggle="Cambiar lista">
+              </kendo-timepicker-messages>
+            </kendo-timepicker>
+          </ng-template>
+        </kendo-grid-column>
+        <ng-template kendoGridNoRecordsTemplate>
+          No hay ningún evento
+        </ng-template>
+        <kendo-grid-command-column title="Acciones" width="220">
+          <ng-template kendoGridCellTemplate let-isNew="isNew">
+            <button kendoGridEditCommand type="button" [primary]="true">Editar</button>
+            <button kendoGridRemoveCommand type="button">Eliminar</button>
+            <button kendoGridSaveCommand type="button"
+              [disabled]="myForm.invalid || myForm.pristine">{{ isNew ? 'Añadir' : 'Actualizar' }}</button>
+            <button kendoGridCancelCommand type="button">{{ isNew ? 'Descartar cambios' : 'Cancelar' }}</button>
+          </ng-template>
+        </kendo-grid-command-column>
+      </kendo-grid>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cerrar</button>
+  </div>
+</ng-template>
