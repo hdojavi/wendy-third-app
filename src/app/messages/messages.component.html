@@ -12,9 +12,9 @@
           <h4 class="card-title">Mensajes con Wendy</h4>
           <hr>
         </div>
-        <div class="card-body messages">
+        <div class="card-body">
           <div class="table-responsive">
-            <table class="table" *ngIf="!messagesEmpty">
+            <!--<table class="table" *ngIf="messages.length != 0">
               <thead class="text-primary">
                 <th> Contenido </th>
                 <th> Enviado </th>
@@ -25,12 +25,12 @@
                   <td> {{message.created}} </td>
                 </tr>
               </tbody>
-            </table>
-            <p class="text-center" *ngIf="messagesEmpty">No tienes mensajes.</p>
+            </table>-->
+            <p class="text-center" *ngIf="messages.length == 0">No tienes mensajes.</p>
           </div>
         </div>
         <div class="card-footer">
-          <div class="stats text-right" *ngIf="!messagesEmpty">
+          <div class="stats text-right" *ngIf="messages.length != 0">
             <i (click)="openAllMessages()" class="now-ui-icons arrows-1_minimal-right"></i> Ver más...
           </div>
         </div>
@@ -42,28 +42,44 @@
           <h4 class="card-title">Emails</h4>
           <hr>
         </div>
-        <div class="card-body messages">
+        <div class="card-body">
           <div class="table-responsive">
-            <table class="table" *ngIf="!emailsEmpty">
-              <thead class="text-primary">
-                <th> Destinatario </th>
-                <th> Sujeto </th>
-                <th> Contenido </th>
-              </thead>
-              <tbody>
-                <tr *ngFor="let email of emails">
-                  <td> {{email.receiver}} </td>
-                  <td> {{email.subject}} </td>
-                  <td> {{email.content}}</td>
-                </tr>
-              </tbody>
+            <table mat-table class="table" [dataSource]="emails">
+              <ng-container matColumnDef="image">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
+                <td mat-cell *matCellDef="let email"><img class="messages-avatar" [src]="email.contact.photoDirectory"> </td>
+              </ng-container>
+              <ng-container matColumnDef="contact">
+                <th mat-header-cell *matHeaderCellDef [attr.colspan]="2" > Destinatario </th>
+                <td mat-cell *matCellDef="let email"> {{email.contact.name + ' ' + email.contact.lastName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="subject">
+                <th mat-header-cell *matHeaderCellDef> Asunto </th>
+                <td mat-cell *matCellDef="let email"> {{email.subject}} </td>
+              </ng-container>
+              <ng-container matColumnDef="body">
+                <th mat-header-cell *matHeaderCellDef> Contenido </th>
+                <td mat-cell *matCellDef="let email"> {{email.body}} </td>
+              </ng-container>
+              <ng-container matColumnDef="detail">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let email">
+                  <button (click)="detailMessage(email)" type="button" rel="tooltip" title="Ver detalle"
+                    class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral">
+                    <i class="now-ui-icons arrows-1_minimal-right"></i>
+                  </button>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columnsEmails"></tr>
+              <tr mat-row *matRowDef="let emails; columns: columnsEmails"></tr>
             </table>
-            <p class="text-center" *ngIf="emailsEmpty">No tienes emails.</p>
+            <mat-paginator [hidePageSize]="true" [length]="emails.data?.length" [pageSize]="5"> </mat-paginator>
+            <p class="text-center" *ngIf="emails.data?.length == 0">No tienes emails.</p>
           </div>
         </div>
         <div class="card-footer">
-          <div class="stats text-right" *ngIf="!emailsEmpty">
-            <i (click)="openAllEmails()" class="now-ui-icons arrows-1_minimal-right"></i> Ver más...
+          <div class="stats text-right" *ngIf="emails.data?.length != 0">
+            <!--<i (click)="openAllEmails()" class="now-ui-icons arrows-1_minimal-right"></i> Ver más... -->
           </div>
         </div>
       </div>
