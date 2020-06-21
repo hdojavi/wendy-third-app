@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as Chartist from 'chartist';
 import { GraphicsService } from '../services/graphics.service';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/User';
 import { Graphic } from '../models/Graphic';
 import { Chart } from 'chart.js';
+import * as jsPDF from 'jspdf';
+import * as html2canvas from "html2canvas";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-graphics',
@@ -20,6 +23,8 @@ export class GraphicsComponent implements OnInit {
 
   public chartConfig: any;
   public optionalChartConfig: any;
+
+  @ViewChild('graphics', { static: false }) graphics: ElementRef;
 
   constructor(private graphicService: GraphicsService, private auth: AuthService) { }
 
@@ -323,5 +328,17 @@ export class GraphicsComponent implements OnInit {
     } else {
       return 'rgb(' + r + ', ' + g + ', ' + b + ')';
     }
+  }
+
+  downloadPDF() {
+    // Get the element to export into pdf
+    let pdfContent = window.document.getElementById("graphics");
+    // Use html2canvas to apply CSS settings
+    html2canvas(pdfContent).then(function (canvas) {
+      var img = canvas.toDataURL("image/png", 1.0);
+      var doc = new jsPDF("l", "mm", "a4");
+      doc.addImage(img, 'JPEG', 0, 0, 245, 235);
+      doc.save('Gráficos de salud ' + moment(new Date()).format('DD/MM/YYYY'));
+    });
   }
 }
