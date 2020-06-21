@@ -21,6 +21,8 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -31,6 +33,9 @@ import { LabelModule } from '@progress/kendo-angular-label';
     ChartsModule,
     NgbModule,
     ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    ToastrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,

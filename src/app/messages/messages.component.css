@@ -1,3 +1,8 @@
-.messages {
-  height: 400px;
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell{
+  border-bottom-style: none !important;
+}
+
+.messages-avatar{
+  width: 40px;
+  border-radius: 50%;
 }
