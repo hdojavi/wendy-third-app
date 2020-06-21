@@ -10,6 +10,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { LabelModule } from '@progress/kendo-angular-label';
 
 @NgModule({
   imports: [
@@ -22,7 +24,9 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
     NgbModule,
     ButtonsModule,
     GridModule,
-    DateInputsModule
+    DateInputsModule,
+    InputsModule,
+    LabelModule
   ],
   declarations: [
     FooterComponent,

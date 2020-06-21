@@ -12,20 +12,21 @@
         </div>
         <div class="card-body">
           <div class="btn-group">
-            <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-              (viewDateChange)="closeOpenMonthViewDay()">
+            <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
               Anterior
             </div>
             <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
               Hoy
             </div>
-            <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
-              (viewDateChange)="closeOpenMonthViewDay()">
+            <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
               Siguiente
             </div>
-
-
-
+          </div>
+          <div class="btn btn-warning pull-right">
+            Crear serie
+          </div>
+          <div class="btn btn-secondary pull-right" (click)="openCreateType(contentEventType)">
+            Tipos de evento
           </div>
           <mwl-calendar-month-view [viewDate]="viewDate" [events]="events" [refresh]="refresh" [locale]="locale"
             (dayClicked)="dayClicked($event.day, content)" (eventClicked)="handleEvent('Clicked', $event.event)"
@@ -69,7 +70,7 @@
             <kendo-timepicker required placeholder="Hora" [(value)]="dataItem.time" [format]="'HH:mm'">
 
               <kendo-timepicker-messages accept="Aceptar" acceptLabel="Seleccione LA HORA" cancel="Cancelar"
-                cancelLabel="Cancelar cambios" now="Ahora" nowLabel="Ahora"  toggle="Cambiar lista">
+                cancelLabel="Cancelar cambios" now="Ahora" nowLabel="Ahora" toggle="Cambiar lista">
               </kendo-timepicker-messages>
             </kendo-timepicker>
           </ng-template>
@@ -83,6 +84,57 @@
             <button kendoGridRemoveCommand type="button">Eliminar</button>
             <button kendoGridSaveCommand type="button"
               [disabled]="myForm.invalid || myForm.pristine">{{ isNew ? 'Añadir' : 'Actualizar' }}</button>
+            <button kendoGridCancelCommand type="button">{{ isNew ? 'Descartar cambios' : 'Cancelar' }}</button>
+          </ng-template>
+        </kendo-grid-command-column>
+      </kendo-grid>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cerrar</button>
+  </div>
+</ng-template>
+<ng-template #contentEventType let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Crear tipo de evento</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form novalidate #myFormEventType="ngForm">
+      <kendo-grid [data]="gridDataCreateEventType" [height]="410" (dataStateChange)="onStateChangeEventType($event)"
+        (edit)="editHandler($event)" (cancel)="cancelHandler($event)" (save)="saveHandlerEventType($event)"
+        (remove)="removeHandlerEventType($event)" (add)="addHandlerEventType($event, myFormEventType)">
+        <ng-template kendoGridToolbarTemplate>
+          <button kendoGridAddCommand type="button">Añadir un tipo de evento</button>
+        </ng-template>
+        <kendo-grid-column field="eventId" title="ID" width="40" [hidden]="true">
+          <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+            <input [(ngModel)]="dataItem.eventTypeId" kendoGridFocusable name="eventTypeId" required />
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="title" title="Título" width="250">
+          <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+            <input [(ngModel)]="dataItem.title" kendoGridFocusable name="title" class="k-textbox" required />
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="color" title="Color" width="70">
+          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+            <kendo-colorpicker required [(value)]="dataItem.color" [gradientSettings]="{opacity: false}" [format]="'hex'">
+            </kendo-colorpicker>
+          </ng-template>
+        </kendo-grid-column>
+        <ng-template kendoGridNoRecordsTemplate>
+          No hay ningún tipo de evento
+        </ng-template>
+        <kendo-grid-command-column title="Acciones" width="220">
+          <ng-template kendoGridCellTemplate let-isNew="isNew">
+            <button kendoGridEditCommand type="button" [primary]="true">Editar</button>
+            <button kendoGridRemoveCommand type="button">Eliminar</button>
+            <button kendoGridSaveCommand type="button"
+              [disabled]="myFormEventType.invalid || myFormEventType.pristine">{{ isNew ? 'Añadir' : 'Actualizar' }}</button>
             <button kendoGridCancelCommand type="button">{{ isNew ? 'Descartar cambios' : 'Cancelar' }}</button>
           </ng-template>
         </kendo-grid-command-column>

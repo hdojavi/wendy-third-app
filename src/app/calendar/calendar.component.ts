@@ -11,6 +11,7 @@ import { CalendarService } from '../services/calendar.service';
 import { Event } from '../models/Event';
 import { AuthService } from '../services/auth.service';
 import * as moment from 'moment';
+import { EventType } from '../models/EventType';
 
 const colors: any = {
   red: {
@@ -42,8 +43,12 @@ const colors: any = {
 
 export class CalendarComponent implements OnInit {
 
+
   // Database
   eventsRaw: Event[];
+  eventsTypeRaw: EventType[];
+
+
 
   // Calendar configuration
   weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
@@ -55,7 +60,15 @@ export class CalendarComponent implements OnInit {
   locale: string = 'es';
   events: CalendarEvent[] = [];
 
-  // Data grid
+  // Data grid create type event
+  public gridDataCreateEventType: EventType[];
+  public gridStateEventType: State = {
+    sort: [],
+    skip: 0,
+    take: 10
+  };
+
+  // Data grid create event
   public gridData: EventBack[];
   public gridState: State = {
     sort: [],
@@ -76,11 +89,23 @@ export class CalendarComponent implements OnInit {
         });
         this.events = events;
       });
+
+    this.calendarService.getEventTypes(this.authService.getUserLoggedValue().deviceId)
+      .subscribe(et => {
+        this.eventsTypeRaw = et;
+        this.gridDataCreateEventType = et;
+      })
   }
 
   ngOnInit() {
   }
 
+
+  openCreateType(contentEventType) {
+    this.modalService.open(contentEventType, { size: 'lg' }).result.then((result) => {
+    }, (reason) => {
+    });
+  }
 
   // Calendar methods
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content): void {
@@ -118,10 +143,9 @@ export class CalendarComponent implements OnInit {
   getFormattedEventDay(date: Date) {
     return `${date.getDate()} de ${date.toLocaleString('es', { month: 'long' })} de ${date.getFullYear()}`;
   }
-  // Data grid methods
+  // Data grid create event methods
   public onStateChange(state: State) {
     this.gridState = state;
-
   }
 
   public addHandler({ sender }, formInstance) {
@@ -212,6 +236,61 @@ export class CalendarComponent implements OnInit {
     // this.editedRowIndex = undefined;
     // this.editedProduct = undefined;
   }
+
+
+  // Data grid create event methods
+  public onStateChangeEventType(state: State) {
+    this.gridState = state;
+  }
+
+  public saveHandlerEventType({ sender, rowIndex, dataItem, isNew }) {
+    let evt = new EventType();
+    if (isNew) {
+
+      evt.deviceId = this.authService.getUserLoggedValue().deviceId;
+      evt.title = dataItem.title;
+      evt.color = dataItem.color;
+
+      this.calendarService.createEventType(evt)
+        .subscribe(evtCreated => {
+          this.gridDataCreateEventType.push(evtCreated);
+        });
+    } else {
+      debugger;
+      evt.eventTypeId = dataItem.eventTypeId;
+      evt.deviceId = this.authService.getUserLoggedValue().deviceId;
+      evt.title = dataItem.title;
+      evt.color = dataItem.color;
+
+      this.calendarService.updateEventType(evt)
+        .subscribe(evtUpdated => {
+          let indexGridData = this.gridDataCreateEventType.findIndex(x => x.eventTypeId === evtUpdated.eventTypeId);
+
+          this.gridDataCreateEventType[indexGridData] = evtUpdated;
+        });
+    }
+
+    sender.closeRow(rowIndex);
+    this.editedRowIndex = undefined;
+    // this.editedProduct = undefined;
+  }
+
+  public removeHandlerEventType({ dataItem }) {
+    this.calendarService.deleteEventType(dataItem.eventTypeId)
+      .subscribe(() => {
+        this.gridDataCreateEventType = this.gridDataCreateEventType.filter(e => {
+          return e.eventTypeId != dataItem.eventTypeId;
+        });
+      });
+  }
+
+  public addHandlerEventType({ sender }, formInstance) {
+    formInstance.reset();
+    this.closeEditor(sender);
+
+    sender.addRow(new EventType());
+  }
+
 
   private getCalendarEventFromEventRaw(evRaw: Event): CalendarEvent {
     return {

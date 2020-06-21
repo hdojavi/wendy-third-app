@@ -23,6 +23,10 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 
 import '@progress/kendo-angular-intl/locales/es/all';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { LabelModule } from '@progress/kendo-angular-label';
+
+
 
 
 registerLocaleData(localeEs);
@@ -46,7 +50,11 @@ registerLocaleData(localeEs);
     ToastrModule.forRoot(),
     ButtonsModule,
     GridModule,
-    DateInputsModule
+    DateInputsModule,
+    InputsModule,
+    LabelModule,
+    InputsModule,
+    LabelModule
   ],
   declarations: [
     AppComponent,
