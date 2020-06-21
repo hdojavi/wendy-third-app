@@ -12,6 +12,8 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -26,7 +28,9 @@ import { LabelModule } from '@progress/kendo-angular-label';
     GridModule,
     DateInputsModule,
     InputsModule,
-    LabelModule
+    LabelModule,
+    DropDownsModule,
+    NgxPaginationModule
   ],
   declarations: [
     FooterComponent,

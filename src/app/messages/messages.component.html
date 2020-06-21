@@ -13,26 +13,31 @@
           <hr>
         </div>
         <div class="card-body">
-          <div class="table-responsive">
-            <!--<table class="table" *ngIf="messages.length != 0">
-              <thead class="text-primary">
-                <th> Contenido </th>
-                <th> Enviado </th>
-              </thead>
-              <tbody>
-                <tr *ngFor="let message of messages">
-                  <td> {{message.content}} </td>
-                  <td> {{message.created}} </td>
-                </tr>
-              </tbody>
-            </table>-->
-            <p class="text-center" *ngIf="messages.length == 0">No tienes mensajes.</p>
+          <div class="mesgs">
+            <div class="msg_history">
+              <div *ngFor="let message of messages" [ngClass]="{
+                'incoming_msg':message.isFromDevice,
+                'outgoing_msg':!message.isFromDevice
+              }">
+                <div [ngClass]="{
+                  'received_withd_msg':message.isFromDevice,
+                  'sent_msg':!message.isFromDevice
+                }">
+                  <p>{{message.content}}</p>
+                  <span class="time_date"> {{getFormattedTime(message.date)}}</span>
+                </div>
+              </div>
+          </div>
+            <div class="type_msg">
+              <div class="input_msg_write">
+                <input type="text" class="write_msg" placeholder="Escribe un mensaje" name="messageToSend" [(ngModel)]="messageToSend" />
+                <button class="msg_send_btn" type="button" (click)="sendMessage(inputMessage)"><i class="fa fa-paper-plane-o"
+                    aria-hidden="true"></i></button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="card-footer">
-          <div class="stats text-right" *ngIf="messages.length != 0">
-            <i (click)="openAllMessages()" class="now-ui-icons arrows-1_minimal-right"></i> Ver más...
-          </div>
         </div>
       </div>
     </div>
@@ -47,10 +52,11 @@
             <table mat-table class="table" [dataSource]="emails">
               <ng-container matColumnDef="image">
                 <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
-                <td mat-cell *matCellDef="let email"><img class="messages-avatar" [src]="email.contact.photoDirectory"> </td>
+                <td mat-cell *matCellDef="let email"><img class="messages-avatar" [src]="email.contact.photoDirectory">
+                </td>
               </ng-container>
               <ng-container matColumnDef="contact">
-                <th mat-header-cell *matHeaderCellDef [attr.colspan]="2" > Destinatario </th>
+                <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> Destinatario </th>
                 <td mat-cell *matCellDef="let email"> {{email.contact.name + ' ' + email.contact.lastName}} </td>
               </ng-container>
               <ng-container matColumnDef="subject">

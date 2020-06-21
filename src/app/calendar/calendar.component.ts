@@ -170,11 +170,13 @@ export class CalendarComponent implements OnInit {
 
   public saveHandler({ sender, rowIndex, dataItem, isNew }) {
     let ev = new Event();
+    debugger;
     if (isNew) {
       let dAux = this.eventDay.day;
 
       ev.deviceId = this.authService.getUserLoggedValue().deviceId;
       ev.description = dataItem.description;
+      ev.eventTypeId = dataItem.eventTypeId.eventTypeId;
       ev.isTimeRelevant = dataItem.time !== undefined;
 
       dAux.setHours(dataItem.time.getHours());
@@ -191,6 +193,7 @@ export class CalendarComponent implements OnInit {
     } else {
       let dAux = this.eventDay.day;
       ev.eventId = dataItem.eventId;
+      ev.eventTypeId = dataItem.eventTypeId.eventTypeId;
       ev.deviceId = this.authService.getUserLoggedValue().deviceId;
       ev.description = dataItem.description;
       ev.isTimeRelevant = dataItem.time !== undefined;
@@ -306,7 +309,9 @@ export class CalendarComponent implements OnInit {
     return {
       eventId: evRaw.eventId,
       description: evRaw.description,
-      time: new Date(evRaw.date)
+      time: new Date(evRaw.date),
+      eventTypeId:  (evRaw.eventType == null) ? 0 : evRaw.eventType.eventTypeId,
+      eventType:  (evRaw.eventType == null) ? new EventType() : evRaw.eventType
     }
   }
 
@@ -319,5 +324,7 @@ export class EventDay {
 export class EventBack {
   eventId: number;
   description: string;
+  eventType: EventType
+  eventTypeId: number;
   time: Date;
 }

@@ -1,1 +1,8 @@
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+input {
+    border: none !important;
+  }
+  
+  input:focus {
+    border: none !important;
+  }

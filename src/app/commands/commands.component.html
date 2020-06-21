@@ -9,12 +9,12 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Habilitar/Deshabilitar comandos</h4>
+          <h4 class="card-title">Habilitación de comandos</h4>
         </div>
         <div class="card-body">
           <table class="table">
             <tbody>
-              <tr *ngFor="let command of commands">
+              <tr *ngFor="let command of commands | paginate: { itemsPerPage: 10, currentPage: p }">
                 <td>
                   <div class="form-check">
                     <label class="form-check-label">
@@ -35,6 +35,13 @@
               </tr>
             </tbody>
           </table>
+          <pagination-controls class="my-pagination" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event">
+          </pagination-controls>
+          <style>
+            .my-pagination /deep/ .ngx-pagination .current {
+              background: #ADC698 !important;
+            }
+          </style>
         </div>
       </div>
     </div>

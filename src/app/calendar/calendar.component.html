@@ -22,9 +22,6 @@
               Siguiente
             </div>
           </div>
-          <div class="btn btn-warning pull-right">
-            Crear serie
-          </div>
           <div class="btn btn-secondary pull-right" (click)="openCreateType(contentEventType)">
             Tipos de evento
           </div>
@@ -62,6 +59,13 @@
           <ng-template kendoGridEditTemplate let-dataItem="dataItem">
             <input [(ngModel)]="dataItem.description" kendoGridFocusable name="description" class="k-textbox"
               required />
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="eventTypeId" title="Tipo de evento" width="175">
+          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+            <kendo-dropdownlist name="eventTypeId" [data]="eventsTypeRaw" [textField]="'title'" [valueField]="'eventTypeId'"
+              [(ngModel)]="dataItem.eventTypeId">
+            </kendo-dropdownlist>
           </ng-template>
         </kendo-grid-column>
         <kendo-grid-column field="time" title="Hora" width="180">
@@ -122,7 +126,8 @@
 
         <kendo-grid-column field="color" title="Color" width="70">
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-            <kendo-colorpicker required [(value)]="dataItem.color" [gradientSettings]="{opacity: false}" [format]="'hex'">
+            <kendo-colorpicker required [(value)]="dataItem.color" [gradientSettings]="{opacity: false}"
+              [format]="'hex'">
             </kendo-colorpicker>
           </ng-template>
         </kendo-grid-column>

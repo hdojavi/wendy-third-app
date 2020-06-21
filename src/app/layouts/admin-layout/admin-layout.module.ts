@@ -23,6 +23,8 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -45,7 +47,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     GridModule,
     DateInputsModule,
     InputsModule,
-    LabelModule
+    LabelModule,
+    DropDownsModule,
+    NgxPaginationModule
   ], providers: [
     { provide: LOCALE_ID, useValue: 'es-ES' }
   ],

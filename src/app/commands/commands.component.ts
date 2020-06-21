@@ -13,7 +13,7 @@ export class CommandsComponent implements OnInit {
 
   user: User;
   commands: Command[];
-
+  p: number = 1;
   constructor(private auth: AuthService, private commandsService: CommandsService) { }
 
   ngOnInit() {
