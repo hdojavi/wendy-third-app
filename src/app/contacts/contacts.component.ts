@@ -19,7 +19,7 @@ export class ContactsComponent implements OnInit {
     this.dataSource.paginator = value;
   }
 
-  columnsToDisplay = ['name', 'email', 'phoneNumber', 'actions'];
+  columnsToDisplay = ['image', 'name', 'email', 'phoneNumber', 'actions'];
   titleDetail: string;
   detailIsVisible = false;
   formIsEdit: boolean;
