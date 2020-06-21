@@ -61,10 +61,10 @@
               required />
           </ng-template>
         </kendo-grid-column>
-        <kendo-grid-column field="eventTypeId" title="Tipo de evento" width="175">
+        <kendo-grid-column field="eventType" title="Tipo de evento" width="175">
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-            <kendo-dropdownlist name="eventTypeId" [data]="eventsTypeRaw" [textField]="'title'" [valueField]="'eventTypeId'"
-              [(ngModel)]="dataItem.eventTypeId">
+            <kendo-dropdownlist name="eventType" [data]="eventsTypeRaw" [textField]="'title'" [valueField]="'eventTypeId'" [value]="dataItem.eventType"
+              [(ngModel)]="dataItem.eventType" >
             </kendo-dropdownlist>
           </ng-template>
         </kendo-grid-column>

@@ -5,12 +5,15 @@
 </div>
 
 <div class="main-content">
-  <div class="row">
+  <div class="row" id="graphics" #graphics>
     <div class="col-lg-12 col-md-12">
       <div class="card card-chart">
         <div class="card-header">
-          <h5 class="card-category">Salud</h5>
+          <span class="card-category">Salud</span><button type="button" data-html2canvas-ignore="true" class="btn btn-primary fa-pull-right" (click)="downloadPDF()">Exportar PDF</button>
           <h4 class="card-title">Minutos de sueño</h4>
+        </div>
+        <div id="graphics">
+
         </div>
         <div class="card-body">
           <div class="chart-area">
