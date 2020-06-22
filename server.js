@@ -8,7 +8,7 @@ app.use(express.static(__dirname + '/dist/now-ui-dashboard-angular'));
 
 app.get('/*', function(req,res) {
     
-res.sendFile(path.join(__dirname+'/dist/now-ui-dashboard-angular/index.html'));
+res.sendFile(path.join(__dirname+'/dist/now-ui-dashboard-angular/src/index.html'));
 });
 
 // Start the app by listening on the default Heroku port
